@@ -1,0 +1,12 @@
+FROM golang:alpine as builder
+COPY ../ .
+RUN cd /data/go \
+    go build k8sweb.go \
+    ls -lth \
+    ls -lth /go/
+
+FROM alpine:latest
+copy  --from=builder /go/k8sweb /home/k8sweb
+CMD ["/home/k8sweb"]
+
+

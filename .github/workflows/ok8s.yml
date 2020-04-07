@@ -1,0 +1,30 @@
+name: Download temp resources.
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Download!
+    - name: Login Docker Push images
+      env:
+        ACCESS_TOKEN: ${{ secrets.DOCKER_PW }} 
+      run: |
+        echo "PWD:${PWD}"
+
+        docker build . --file docker/Dockerfile --tag wxdlong/ok8spod
+        docker login -u wxdlong -p ${ACCESS_TOKEN}
+        echo "push to docker hub"
+        docker push wxdlong/ok8s:${version}
+
+        echo "push to aliyun"
+        docker logout
+        docker login registry.cn-hangzhou.aliyuncs.com -u yjmnrg@gmail.com -p ${ACCESS_TOKEN}
+        docker tag wxdlong/ok8spod registry.cn-hangzhou.aliyuncs.com/wxdlong/ok8spod
+        docker push registry.cn-hangzhou.aliyuncs.com/wxdlong/ok8spod
