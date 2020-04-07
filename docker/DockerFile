@@ -1,5 +1,5 @@
 FROM golang:alpine as builder
-COPY ../ .
+COPY ./ .
 RUN cd /data/go \
     go build k8sweb.go \
     ls -lth \
