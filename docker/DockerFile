@@ -1,12 +1,12 @@
 FROM golang:alpine as builder
-COPY ./ .
-RUN ls -lth \  
-    go build k8sweb.go \
-    ls -lth \
-    ls -lth /go/
+COPY ./ /home
+RUN go env -w GO111MODULE="ON" && cd /home && \
+    go build -ldflags "-s" k8sweb.go
 
 FROM alpine:latest
-copy  --from=builder /go/k8sweb /home/k8sweb
+COPY  --from=builder /home/k8sweb /home/k8sweb
+RUN chmod +x /home/k8sweb
+EXPOSE 80
 CMD ["/home/k8sweb"]
 
 
