@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 COPY ./ /home
-RUN go env -w GO111MODULE="ON" && cd /home && \
+RUN go env -w GO111MODULE="on" && cd /home && \
     go build -ldflags "-s" k8sweb.go
 
 FROM alpine:latest

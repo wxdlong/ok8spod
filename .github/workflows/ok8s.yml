@@ -18,7 +18,7 @@ jobs:
       run: |
         echo "PWD:${PWD}"
 
-        docker build . --file docker/DockerFile --tag wxdlong/ok8spod
+        docker build . --file docker/Dockerfile --tag wxdlong/ok8spod
         docker login -u wxdlong -p ${ACCESS_TOKEN}
         echo "push to docker hub"
         docker push wxdlong/ok8spod
